@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import { PostForm, Posts } from './components/index.ts';
+
 import './App.css';
 
 function App() {
+  const [posts, setPosts] = useState([]);
+
+  const onSave = (newPost) => setPosts((posts) => [newPost, ...posts]);
+
+  const handleRemovePost = (id) => {
+    setPosts((prevPosts) => {
+      return prevPosts.filter((post) => post.id !== id);
+    });
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <PostForm onSave={onSave} />
+      <Posts data={posts} handleRemovePost={handleRemovePost} />
     </div>
   );
 }
